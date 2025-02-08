@@ -1,0 +1,40 @@
+.index__content{
+    width: 30vw;
+    margin: 15vh auto;
+}
+
+.index__form{
+    text-align: center;
+    width: 100%;
+}
+.index__form--sign{
+    display: inline-block;
+    padding: 0.5vh 1vw;
+    border-radius: 20px;
+    background-color: rgb(188, 187, 187);
+    letter-spacing: 0.1em;
+}
+
+.index__form--date{
+    font-size: 2em;
+}
+
+.index__form--clock{
+    font-size: 4em;
+    letter-spacing: 0.2em;
+}
+
+.form__btn{
+    width: 12vw;
+    margin: 5vh auto;
+}
+.form__btn--submit{
+    width: 100%;
+    background-color: black;
+    font-weight: bolder;
+    font-size: 2em;
+    color: white;
+    border-radius: 20px;
+    padding: 1vh 3vw;
+    letter-spacing: 0.1em;
+}

@@ -1,0 +1,87 @@
+.index__content{
+    width: 70vw;
+    margin: 0 auto;
+    padding: 10vh;
+}
+
+/* 日付の表示 */
+.index__content--ttl{
+    border-left: 0.2em solid black;
+    padding-left: 1vw;
+    font-weight: bold;
+}
+
+日付の指定処理
+.form__day{
+    background-color: white;
+    padding: 1vh 0.5vw;
+    margin: 5vh 0;
+    border-radius: 10px;
+}
+span{
+    font-weight: bold;
+    color: grey;
+}
+.form__day{
+    position: relative;
+    padding: 2vh 1vw;
+}
+.form__day--day-before{
+    text-decoration: none;
+}
+.day__input{
+    width: 20vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.day__input--item{
+    width: 100%;
+    font-weight: bolder;
+    font-size: x-large;
+    border: none;
+}
+.day__input--item::-webkit-calendar-picker-indicator{
+    background: url("../img/calendar.svg");
+    position: absolute;
+    left: 5%;
+}
+.day__input--item::-webkit-datetime-edit{
+    position: relative;
+    left: 15%;
+}
+
+/* 勤怠一覧表示 */
+.index__list{
+    margin: 10vh 0;
+    width: 100%;
+}
+.list__table{
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    color: grey;
+    text-align: center;
+}
+.list__table--name{
+    width: 30%;
+}
+.list__table--clockin{
+    width: 10%;
+}
+.list__table--clockout{
+    width: 10%;
+}
+.list__table--break{
+    width: 15%;
+}
+.list__table--total{
+    width: 15%;
+}
+.list__table--detail{
+    width: 20%;
+}
+p{
+    width: 75%;
+}

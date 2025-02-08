@@ -1,0 +1,41 @@
+header{
+    background-color: black;
+    color: white;
+}
+body{
+    background-color: gainsboro;
+}
+.header__group{
+    display: flex;
+    justify-content: space-between;
+    padding: 1vh 2vw;
+}
+.header__logo{
+    width: 25vw;
+    margin: auto 0;
+}
+.header__logo--img{
+    object-fit: cover;
+}
+
+ul{
+    display: flex;
+}
+li{
+    display: inline-block;
+    text-align: center;
+}
+li a{
+    text-decoration: none;
+    color: white;
+}
+li{
+    margin-left: 1vw;
+}
+.logout__btn--submit{
+    font-size: normal;
+    font-weight: bold;
+    background-color: black;
+    border: none;
+    color: white;
+}

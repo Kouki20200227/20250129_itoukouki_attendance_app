@@ -1,0 +1,45 @@
+body{
+    background-color: white;
+}
+.register__content{
+    width: 50vw;
+    margin: 0 auto;
+    text-align: center;
+    padding: 5vh 0;
+}
+
+/* フォーム */
+.register__form{
+    width: 100%;
+    margin: 5vh 0;
+}
+.input__group{
+    margin-top: 4vh;
+    text-align: left;
+}
+.input__group--lbl{
+    font-weight: bold;
+}
+.input__group--txt{
+    padding: 1vh 2vw;
+    width: 100%;
+}
+.button__group{
+    width: 100%;
+    margin-top: 10vh;
+}
+.button__group--submit{
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 1vh 0;
+    border-radius: 5px;
+    font-size: large;
+    font-weight: bold;
+}
+.login__link{
+    margin-top: 2vh;
+}
+.login__link--txt{
+    text-decoration: none;
+}

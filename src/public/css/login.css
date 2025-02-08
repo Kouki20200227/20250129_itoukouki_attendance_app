@@ -1,0 +1,32 @@
+body{
+    background-color: white;
+}
+.login__content{
+    width: 50vw;
+    margin: 10vh auto;
+}
+.content__ttl--txt{
+    text-align: center;
+}
+label{
+    display: block;
+    font-weight: bolder;
+}
+.form__group--item{
+    width: 100%;
+    padding: 1.5vh 1vw;
+    margin-bottom: 10vh;
+}
+.form__btn{
+    width: 100%;
+}
+.form__btn--submit{
+    width: 100%;
+    border: none;
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    font-size: x-large;
+    padding: 1vh;
+}
+
