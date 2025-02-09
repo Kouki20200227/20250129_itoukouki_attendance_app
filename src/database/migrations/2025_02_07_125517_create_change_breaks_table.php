@@ -16,8 +16,8 @@ class CreateChangeBreaksTable extends Migration
         Schema::create('change_breaks', function (Blueprint $table) {
             $table->id();
             $table->integer('change_request_id');
-            $table->time('break_in');
-            $table->time('break_out');
+            $table->time('change_break_in');
+            $table->time('change_break_out');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

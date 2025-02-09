@@ -19,6 +19,8 @@ class CreateChangeRequestsTable extends Migration
             $table->date('change_day');
             $table->time('change_clock_in');
             $table->time('change_clock_out');
+            $table->string('change_remarks');
+            $table->tinyInteger('approval_flg')->comment('0:承認待ち,1:承認済み');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
