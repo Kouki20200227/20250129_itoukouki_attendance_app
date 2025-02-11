@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class change_request extends Model
+class Change_request extends Model
 {
     use HasFactory;
 }

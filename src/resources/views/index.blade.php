@@ -5,14 +5,30 @@
 @endsection
 
 @section('content')
+<script src="{{asset('js/realTime.js')}}"></script>
 <div class="index__content">
-    <form action="#" class="index__form" method="get">
+    <form action="/index" class="index__form" method="post">
         @csrf
             <p class="index__form--sign">勤務外</p>
-            <p class="index__form--date">2023年6月1日(木)</p>
-            <strong class="index__form--clock">8:00</strong>
+            <p class="index__form--date" id="current-date"></p>
+            <strong class="index__form--clock" id="current-time"></strong>
             <div class="form__btn">
-                <button class="form__btn--submit">出勤</button>
+                @switch($situation->situation)
+                    @case(0)
+                        <button name="attendance" class="form__btn--submit black">出勤</button>
+                        @break
+                    @case(1)
+                        <button name="leaving" class="form__btn--submit">退勤</button>
+                        <button name="break_in" class="form__btn--submit white">休憩入</button>
+                        @break
+                    @case(2)
+                        <button name="break_out" class="form__btn--submit white">休憩戻</button>
+                        @break
+                    @case(3)
+                        <p class="form__tag--txt">お疲れ様でした。</p>
+                        @break
+                    @default
+                @endswitch
             </div>
     </form>
 </div>

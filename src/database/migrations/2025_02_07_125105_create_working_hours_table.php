@@ -15,9 +15,10 @@ class CreateWorkingHoursTable extends Migration
     {
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->integer('working_day_id');
             $table->time('clock_in');
-            $table->time('clock_out');
+            $table->time('clock_out')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

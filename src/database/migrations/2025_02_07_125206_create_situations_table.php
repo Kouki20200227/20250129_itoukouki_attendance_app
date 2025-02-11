@@ -15,7 +15,8 @@ class CreateSituationsTable extends Migration
     {
         Schema::create('situations', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('situation')->comment('0:非番,1:出勤中,2:休憩中,3:退勤');
+            $table->integer('user_id');
+            $table->tinyInteger('situation')->default(0)->comment('0:非番,1:出勤中,2:休憩中,3:退勤');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

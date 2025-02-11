@@ -25,16 +25,16 @@
                         <th class="list__table--total">合計</th>
                         <th class="list__table--detail">詳細</th>
                     </tr>
-                    
-                        <!-- <tr>
-                            <td class="list__table--name"></td>
-                            <td class="list__table--clockin"></td>
-                            <td class="list__table--clockout"></td>
-                            <td class="list__table--break"></td>
+                    @foreach ($worklist as $work)
+                        <tr>
+                            <td class="list__table--name">{{$work->user->name}}</td>
+                            <td class="list__table--clockin">{{$work->clock_in}}</td>
+                            <td class="list__table--clockout">{{$work->clock_out}}</td>
+                            <td class="list__table--break">{{}}</td>
                             <td class="list__clock--total"></td>
                             <td class="list__clock--detail"></td>
-                        </tr> -->
-                    
+                        </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

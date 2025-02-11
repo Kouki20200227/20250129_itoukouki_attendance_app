@@ -25,16 +25,27 @@
 }
 
 .form__btn{
-    width: 12vw;
+    width: 100%;
     margin: 5vh auto;
 }
 .form__btn--submit{
-    width: 100%;
-    background-color: black;
+    width: 40%;
     font-weight: bolder;
     font-size: 2em;
-    color: white;
     border-radius: 20px;
     padding: 1vh 3vw;
     letter-spacing: 0.1em;
+}
+.black{
+    background-color: black;
+    color: white;
+}
+.white{
+    background-color: white;
+    color: black;
+}
+.form__tag--txt{
+    text-align: center;
+    font-size: 2em;
+    font-weight: bolder;
 }

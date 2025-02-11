@@ -17,10 +17,10 @@
             <div class="header__link">
                 <nav class="link__nav">
                     <ul>
-                        <li><a href="">勤怠一覧</a></li>
-                        <li><a href="">スタッフ一覧</a></li>
-                        <li><a href="">申請一覧</a></li>
                         @if (Auth::check())
+                            <li><a href="">勤怠一覧</a></li>
+                            <li><a href="">スタッフ一覧</a></li>
+                            <li><a href="">申請一覧</a></li>
                             <li>
                                 <form action="/logout" class="logout__form" method="post">
                                     @csrf

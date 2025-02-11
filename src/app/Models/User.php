@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -41,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // 従テーブルWorking_hour(複数)
+    public function working_hours(){
+        return $this->hasMany(Working_hour::class);
+    }
 }

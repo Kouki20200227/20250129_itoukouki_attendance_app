@@ -30,3 +30,13 @@ label{
     padding: 1vh;
 }
 
+.register__link{
+    margin-top: 5vh;
+    width: 100%;
+    text-align: center;
+}
+.register__link--txt{
+    text-decoration: none;
+    color: blue;
+}
+

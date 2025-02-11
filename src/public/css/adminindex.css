@@ -11,7 +11,7 @@
     font-weight: bold;
 }
 
-日付の指定処理
+/* 日付の指定処理 */
 .form__day{
     background-color: white;
     padding: 1vh 0.5vw;
