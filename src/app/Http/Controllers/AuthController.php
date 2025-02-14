@@ -13,17 +13,6 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
-    // ログイン後の遷移先決定
-    public function first(){
-        if(Auth::user()->role === 'admin')
-        {
-            return redirect('/admin/attendance/list');
-        }elseif(Auth::user()->role === 'user'){
-            return redirect('/attendance');
-        }
-    }
-
-
 // 管理者
     // 勤怠一覧画面
     public function admin_index(){
@@ -88,27 +77,42 @@ class AuthController extends Controller
         return $work_total;
     }
 
-
+    public function request_list(){
+        return view('admin.request_list');
+    }
 
 
     // 勤怠登録
     public function index(){
-        $situation = Situation::where('user_id', Auth::id());
+        $situation = Situation::where('user_id', Auth::id())->first();
 
         return view('index', compact('situation'));
     }
     public function index_store(Request $request){
+        // 出勤ボタン
         if($request->has('attendance')){
+            // DBに今日の日付 有:find 無:create
+            if(is_null(Working_day::where('day', today())->first())){
+                $result = Working_day::create(['day' => today()]);
+            }else{
+                $result = Working_day::where('day', today())->first();
+            }
             Working_hour::create([
                 'user_id' => Auth::id(),
-                'working_day_id' => '',
+                'working_day_id' => $result->id,
                 'clock_in' => Carbon::now()->format('H:i'),
             ]);
-        }elseif($request->has('leaving')){
+        }
+        // 退勤ボタン
+        elseif($request->has('leaving')){
 
-        }elseif($request->has('break_in')){
+        }
+        // 休憩ボタン
+        elseif($request->has('break_in')){
 
-        }elseif($request->has('break_out')){
+        }
+        // 休憩戻ボタン
+        elseif($request->has('break_out')){
 
         }
 

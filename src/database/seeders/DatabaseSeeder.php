@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // 管理者ユーザー作成
-        // $this->call(UserSeeder::class);
+        // $this->call(AdminSeeder::class);
     }
 }

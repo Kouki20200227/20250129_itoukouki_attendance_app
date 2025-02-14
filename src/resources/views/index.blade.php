@@ -9,7 +9,21 @@
 <div class="index__content">
     <form action="/index" class="index__form" method="post">
         @csrf
-            <p class="index__form--sign">勤務外</p>
+            @switch($situation->situation)
+                @case(0)
+                    <p class="index__form--sign">勤務外</p>
+                    @break
+                @case(1)
+                    <p class="index__form--sign">勤務中</p>
+                    @break
+                @case(2)
+                    <p class="index__form--sign">休憩中</p>
+                    @break
+                @case(3)
+                    <p class="index__form--sign">退勤済</p>
+                    @break
+                @default
+            @endswitch
             <p class="index__form--date" id="current-date"></p>
             <strong class="index__form--clock" id="current-time"></strong>
             <div class="form__btn">

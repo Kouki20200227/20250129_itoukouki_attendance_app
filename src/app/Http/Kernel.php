@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Models\Working_day;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,5 +65,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        
     ];
+
+    protected function schedule(Schedule $schedule){
+        $schedule->call(function () {
+            Working_day::create([
+                'day' => today(),
+            ]);
+        })->dailyAt('00:00'); //毎日 0時に実行
+    }
 }
