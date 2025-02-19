@@ -11,17 +11,17 @@ class Break_time extends Model
 
     protected $guarded = array('id');
 
-    protected $fillable = ['working_hour_id', 'break_in', 'break_out',];
+    protected $fillable = ['work_id', 'break_in', 'break_out',];
 
     public static $rules = array(
-        'working_hour_id' => 'required',
+        'work_id' => 'required',
         'break_in' => 'required',
         'break_out' => 'required',
     );
 
 // 主テーブル
-    // Working_hour(単数)
-    public function working_hour(){
-        return $this->belongsTo(Working_hour::class);
+    // Work(単数)
+    public function work(){
+        return $this->belongsTo(Work::class);
     }
 }

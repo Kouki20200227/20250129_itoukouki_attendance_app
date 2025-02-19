@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Break_time;
 use App\Models\Situation;
-use App\Models\Working_day;
-use App\Models\Working_hour;
+use App\Models\Work;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Time;
 use SebastianBergmann\CodeUnit\FunctionUnit;
@@ -28,10 +28,8 @@ class AuthController extends Controller
         // $break = $break->addHours($addtime->hour)->addMinutes($addtime->minute);
         // $break = $break->addHours($addtime2->hour)->addMinutes($addtime2->minute);
         // dd($break->format('H:i'));
-        $worklist = Working_hour::whereHas('working_day', function ($query) {
-            $query->where('day', Carbon::today());
-        })->with('user', 'break_times')->get();
-        $list = Working_hour::selectRaw('*, TIMEDIFF()');
+        $worklist = Work::whereDate('work_in', Carbon::now()->today())->with('user', 'break_times')->get();
+        $list = Work::selectRaw('*, TIMEDIFF()');
 
 
         return view('admin.adminindex', compact('worklist'));
@@ -81,7 +79,7 @@ class AuthController extends Controller
         return view('admin.request_list');
     }
 
-
+//一般ユーザー
     // 勤怠登録
     public function index(){
         $situation = Situation::where('user_id', Auth::id())->first();
@@ -90,32 +88,65 @@ class AuthController extends Controller
     }
     public function index_store(Request $request){
         // 出勤ボタン
-        if($request->has('attendance')){
-            // DBに今日の日付 有:find 無:create
-            if(is_null(Working_day::where('day', today())->first())){
-                $result = Working_day::create(['day' => today()]);
-            }else{
-                $result = Working_day::where('day', today())->first();
-            }
-            Working_hour::create([
-                'user_id' => Auth::id(),
-                'working_day_id' => $result->id,
-                'clock_in' => Carbon::now()->format('H:i'),
-            ]);
+        if ($request->has('attendance')) {
+            Work::create(
+                [
+                    'user_id' => Auth::id(),
+                    'work_in' => Carbon::now(),
+                ]
+            );
+            Situation::find(Auth::id())->update(['situation' => 1]);
         }
         // 退勤ボタン
         elseif($request->has('leaving')){
-
+            $this->searchWork()->update(
+                ['work_out' => Carbon::now()],
+            );
+            Situation::find(Auth::id())->update(
+                ['situation' => 3]
+            );
         }
         // 休憩ボタン
         elseif($request->has('break_in')){
-
+            $work = $this->searchWork()->first();
+            Break_time::create(
+                [
+                    'work_id' => $work->id,
+                    'break_in' => Carbon::now(),
+                    ]
+                );
+            Situation::find(Auth::id())->update(
+                ['situation' => 2]
+            );
         }
         // 休憩戻ボタン
         elseif($request->has('break_out')){
-
+            $work = $this->searchWork()->first();
+            Break_time::where('work_id', $work->id)->latest('id')->update(
+                [
+                    'break_out' => Carbon::now(),
+                ]
+            );
+            Situation::find(Auth::id())->update(
+                ['situation' => 1]
+            );
         }
 
         return redirect('/attendance');
+    }
+    // 検索処理
+    private function searchWork(){
+        $work = Work::where('user_id', Auth::id())->whereDate('work_in', Carbon::now()->today());
+
+        return $work;
+    }
+
+    // 勤怠一覧
+    public function work_list(){
+        $user = Auth::user();
+        $dateYm = Carbon::now()->format('Y-m');
+        $worklist = Work::where('user_id', Auth::id())->whereMonth('work_in', Carbon::now()->addDay()->format('m'))->with('break_times')->get();
+
+        return view('admin.staffdetail', compact('user', 'dateYm', 'worklist'));
     }
 }

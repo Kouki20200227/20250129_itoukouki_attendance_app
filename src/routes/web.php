@@ -33,7 +33,7 @@ Route::prefix('/')->group(function () {
 // 管理者承認ルート
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('adminlogin');
-    Route::post('/login', [AdminLoginController::class, 'login']);
+    Route::post('/login', [AdminLoginController::class, 'admin_login']);
 });
 Route::post('/logout', [LogoutController::class, 'destroy'])->name('logout');
 

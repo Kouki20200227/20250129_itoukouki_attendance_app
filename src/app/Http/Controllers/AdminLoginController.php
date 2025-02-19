@@ -12,7 +12,7 @@ class AdminLoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(LoginRequest $request){
+    public function admin_login(LoginRequest $request){
         $credentials = $request->only('email', 'password');
 
         if(Auth::guard('admin')->attempt($credentials, $request->remember)){

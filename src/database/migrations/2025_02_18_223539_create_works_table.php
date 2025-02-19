@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorkingDaysTable extends Migration
+class CreateWorksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateWorkingDaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('working_days', function (Blueprint $table) {
+        Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->date('day');
+            $table->integer('user_id');
+            $table->dateTime('work_in');
+            $table->dateTime('work_out')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
@@ -28,6 +30,6 @@ class CreateWorkingDaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('working_days');
+        Schema::dropIfExists('works');
     }
 }

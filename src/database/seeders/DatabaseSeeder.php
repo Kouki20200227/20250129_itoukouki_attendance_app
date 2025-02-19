@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // 管理者ユーザー作成
-        // $this->call(AdminSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }

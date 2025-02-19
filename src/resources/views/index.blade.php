@@ -7,7 +7,7 @@
 @section('content')
 <script src="{{asset('js/realTime.js')}}"></script>
 <div class="index__content">
-    <form action="/index" class="index__form" method="post">
+    <form action="/attendance" class="index__form" method="post">
         @csrf
             @switch($situation->situation)
                 @case(0)
@@ -32,7 +32,7 @@
                         <button name="attendance" class="form__btn--submit black">出勤</button>
                         @break
                     @case(1)
-                        <button name="leaving" class="form__btn--submit">退勤</button>
+                        <button name="leaving" class="form__btn--submit black">退勤</button>
                         <button name="break_in" class="form__btn--submit white">休憩入</button>
                         @break
                     @case(2)

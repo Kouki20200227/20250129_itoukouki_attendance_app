@@ -15,7 +15,7 @@ class CreateChangeRequestsTable extends Migration
     {
         Schema::create('change_requests', function (Blueprint $table) {
             $table->id();
-            $table->integer('working_day_id');
+            $table->integer('work_id');
             $table->date('change_day');
             $table->time('change_clock_in');
             $table->time('change_clock_out');

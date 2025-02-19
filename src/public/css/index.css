@@ -1,5 +1,5 @@
 .index__content{
-    width: 30vw;
+    width: 40vw;
     margin: 15vh auto;
 }
 
@@ -27,14 +27,17 @@
 .form__btn{
     width: 100%;
     margin: 5vh auto;
+    display: flex;
+    justify-content: space-around;
 }
 .form__btn--submit{
-    width: 40%;
+    width: 35%;
     font-weight: bolder;
     font-size: 2em;
     border-radius: 20px;
-    padding: 1vh 3vw;
+    padding: 1vh 2vw;
     letter-spacing: 0.1em;
+    border: none;
 }
 .black{
     background-color: black;

@@ -15,9 +15,9 @@ class CreateBreakTimesTable extends Migration
     {
         Schema::create('break_times', function (Blueprint $table) {
             $table->id();
-            $table->integer('working_hour_id');
+            $table->integer('work_id');
             $table->time('break_in');
-            $table->time('break_out');
+            $table->time('break_out')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

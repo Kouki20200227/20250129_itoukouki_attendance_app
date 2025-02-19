@@ -33,20 +33,6 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        Fortify::authenticateUsing(function (Request $request) {
-            $credentials = $request->only('email', 'password');
-
-            $user = Auth::attempt($credentials);
-
-            if($user && Auth::user()->role === 'admin' && $request->is('admin/*')){
-                return $user;
-            }elseif($user && Auth::user()->role === 'user' && $request->is('user/*')){
-                return $user;
-            }
-
-            return null;
-        });
-
         Fortify::registerView(function () {
             return view('auth.register');
         });
