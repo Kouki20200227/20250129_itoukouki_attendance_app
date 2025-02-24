@@ -8,8 +8,10 @@ use App\Models\Work;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Time;
 use SebastianBergmann\CodeUnit\FunctionUnit;
+use App\Http\Requests\ChangeRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Psy\CodeCleaner\FunctionContextPass;
 
 class AuthController extends Controller
 {
@@ -27,7 +29,6 @@ class AuthController extends Controller
         // $addtime2 = Carbon::createFromTime($diff->h, $diff->i);
         // $break = $break->addHours($addtime->hour)->addMinutes($addtime->minute);
         // $break = $break->addHours($addtime2->hour)->addMinutes($addtime2->minute);
-        // dd($break->format('H:i'));
         $worklist = Work::whereDate('work_in', Carbon::now()->today())->with('user', 'break_times')->get();
         $list = Work::selectRaw('*, TIMEDIFF()');
 
@@ -145,8 +146,17 @@ class AuthController extends Controller
     public function work_list(){
         $user = Auth::user();
         $dateYm = Carbon::now()->format('Y-m');
-        $worklist = Work::where('user_id', Auth::id())->whereMonth('work_in', Carbon::now()->addDay()->format('m'))->with('break_times')->get();
+        $worklist = Work::where('user_id', Auth::id())->whereMonth('work_in', Carbon::now()->format('m'))->with('break_times')->get();
 
         return view('admin.staffdetail', compact('user', 'dateYm', 'worklist'));
+    }
+    //勤怠詳細
+    public function detail_index($work_id){
+        $work = Work::find($work_id)->with('break_times', 'user')->first();
+
+        return view('admin.admindetail', compact('work'));
+    }
+    public function detail_store($work_id, ChangeRequest $request){
+
     }
 }

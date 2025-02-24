@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/attendance', [AuthController::class, 'index_store']);
     // 勤怠一覧画面(一般ユーザー)
     Route::get('/attendance/list', [AuthController::class, 'work_list']);
+    // 勤怠詳細画面(一般ユーザー)
+    Route::get('/attendance/{work_id}', [AuthController::class, 'detail_index']);
+    Route::post('/attendance/{work_id}', [AuthController::class, 'detail_store']);
 });
 
 // 管理者のアクセス

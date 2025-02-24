@@ -30,22 +30,28 @@
                 <th class="detail__table--detail">詳細</th>
             </tr>
             @foreach ($worklist as $work)
+                @php
+                    $totalBreaks = \Carbon\Carbon::createFromFormat('H:i', '00:00');
+                    $workStart = \Carbon\Carbon::parse($work->work_in);
+                    $workEnd = \Carbon\Carbon::parse($work->work_out);
+                    $workdiff = $workStart->diff($workEnd);
+                    $worktime = \Carbon\Carbon::createFromTime($workdiff->h, $workdiff->i);
+                    foreach($work->break_times as $break_time){
+                        $breakStart = \Carbon\Carbon::parse($break_time->break_in);
+                        $breakEnd = \Carbon\Carbon::parse($break_time->break_out);
+                        $difftimes = $breakStart->diff($breakEnd);                        $addtime = \Carbon\Carbon::createFromTime($difftimes->h, $difftimes->i);
+                        $totalBreaks->addHours($addtime->hour)->addMinutes($addtime->minute);
+                    }
+                    $totalHours = $worktime->subHours($totalBreaks->hour)->subMinutes($totalBreaks->minute);
+                @endphp
                 <tr>
                     <td class="detail__table--day">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('n/j (D)')}}</td>
                     <td class="detail__table--clockin tag">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('H:i') }}</td>
                     <td class="detail__table--clockout tag">{{ \Carbon\Carbon::parse($work->work_out)->translatedFormat('H:i') }}</td>
-                    <td class="detail__table--break tag">1:00</td>
-                    <td class="detail__table--total tag">8:00</td>
-                    <td class="detail__table--detail tag"><a href="#" class="detail__table--link">詳細</a></td>
+                    <td class="detail__table--break tag">{{ \Carbon\Carbon::parse($totalBreaks)->translatedFormat('H:i') }}</td>
+                    <td class="detail__table--total tag">{{ \Carbon\Carbon::parse($totalHours)->translatedFormat('H:i') }}</td>
+                    <td class="detail__table--detail tag"><a href="/attendance/{{ $work->id }}" class="detail__table--link">詳細</a></td>
                 </tr>
-                <!-- <tr>
-                    <td class="detail__table--day">mm/dd(w)</td>
-                    <td class="detail__table--clockin tag">9:00</td>
-                    <td class="detail__table--clockout tag">18:00</td>
-                    <td class="detail__table--break tag">1:00</td>
-                    <td class="detail__table--total tag">8:00</td>
-                    <td class="detail__table--detail tag"><a href="#" class="detail__table--link">詳細</a></td>
-                </tr> -->
             @endforeach
         </table>
     </div>
