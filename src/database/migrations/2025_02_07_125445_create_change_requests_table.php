@@ -15,12 +15,16 @@ class CreateChangeRequestsTable extends Migration
     {
         Schema::create('change_requests', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->integer('work_id');
-            $table->date('change_day');
-            $table->time('change_clock_in');
-            $table->time('change_clock_out');
+            $table->datetime('change_work_in');
+            $table->datetime('change_work_out');
+            $table->time('change_break_in1')->nullable();
+            $table->time('change_break_out1')->nullable();
+            $table->time('change_break_in2')->nullable();
+            $table->time('change_break_out2')->nullable();
             $table->string('change_remarks');
-            $table->tinyInteger('approval_flg')->comment('0:承認待ち,1:承認済み');
+            $table->tinyInteger('approval_flg')->default(0)->comment('0:承認待ち,1:承認済み');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

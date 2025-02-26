@@ -26,16 +26,23 @@
             <th class="request__table--list">申請日時</th>
             <th class="request__table--detail">詳細</th>
         </tr>
-        <!-- 繰り返しスタート -->
+        @foreach ($changes as $change)
             <tr>
-                <td class="request__table--list">承認待ち</td>
-                <td class="request__table--list">西 伶奈</td>
-                <td class="request__table--list">2022/06/01</td>
-                <td class="request__table--list">遅延のため</td>
-                <td class="request__table--list">2023/06/02</td>
-                <td class="request__table--detail"><a href="#" class="table__detail--link">詳細</a></td>
+                <td class="request__table--list">
+                    <!-- 承認待ち:0 ,承認済み:1 -->
+                    @if ($change->approval_flg === 0)
+                        承認待ち
+                    @else
+                        承認済み
+                    @endif
+                </td>
+                <td class="request__table--list">{{ $change->user->name }}</td>
+                <td class="request__table--list">{{ \Carbon\Carbon::parse($change->change_work_in)->format('Y/m/d') }}</td>
+                <td class="request__table--list">{{ $change->change_remarks }}</td>
+                <td class="request__table--list">{{ \Carbon\Carbon::parse($change->created_at)->format('Y/m/d') }}</td>
+                <td class="request__table--detail"><a href="/attendance/{{ $change->work_id }}" class="table__detail--link">詳細</a></td>
             </tr>
-        <!-- 繰り返しエンド -->
+        @endforeach
     </table>
 </div>
 @endsection

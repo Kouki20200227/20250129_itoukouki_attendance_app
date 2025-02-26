@@ -85,3 +85,7 @@ td{
     font-size: x-large;
     font-weight: bolder;
 }
+
+input[type='time']::-webkit-calendar-picker-indicator{
+    display: none;
+}

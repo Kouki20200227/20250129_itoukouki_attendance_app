@@ -20,7 +20,7 @@ class Work extends Model
     );
 
     public function User(){
-        return $this->belongsTo(Work::class);
+        return $this->belongsTo(User::class);
     }
     public function Break_times(){
         return $this->hasMany(Break_time::class);

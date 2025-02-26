@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     // 勤怠詳細画面(一般ユーザー)
     Route::get('/attendance/{work_id}', [AuthController::class, 'detail_index']);
     Route::post('/attendance/{work_id}', [AuthController::class, 'detail_store']);
+    Route::get('/stamp_correction_request/list', [AuthController::class, 'request_index']);
 });
 
 // 管理者のアクセス
@@ -55,7 +56,7 @@ Route::middleware('auth:admin')->group(function () {
     // 勤怠一覧画面(管理者)
     Route::get('/admin/attendance/list', [AuthController::class, 'admin_index']);
     // 申請一覧画面
-    Route::get('/stamp_correction_request/list', [AuthController::class, 'request_list']);
+    // Route::get('/stamp_correction_request/list', [AuthController::class, 'request_list']);
     // 勤怠詳細画面
     Route::get('/admin/attendance', [AuthController::class, 'admin_detail']);
     // スタッフ一覧画面

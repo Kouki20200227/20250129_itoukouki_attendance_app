@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\ChangeRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,5 +46,8 @@ class User extends Authenticatable
     // 従テーブルWork(複数)
     public function works(){
         return $this->hasMany(Work::class);
+    }
+    public function change_requests(){
+        return $this->hasMany(ChangeRequest::class);
     }
 }

@@ -34,9 +34,9 @@
                     <th><label>出勤・退勤</label></th>
                     <td>
                         <div class="input__group">
-                            <input type="text" class="input__group--item" name="work_in" value="{{ $workStart->hour . ':' . $workStart->minute }}">
+                            <input type="time" class="input__group--item" name="work_in" value="{{ $workStart->format('H:i') }}">
                             <div class="wave">~</div>
-                            <input type="text" class="input__group--item" name="work_out" value="{{ $workEnd->hour . ':' . $workEnd->minute }}">
+                            <input type="time" class="input__group--item" name="work_out" value="{{ $workEnd->format('H:i') }}">
                         </div>
                         <div class="form__group--error">
                             @error('work_in || work_out')
@@ -57,9 +57,9 @@
                         @endif
                         <td>
                             <div class="input__group">
-                                <input type="text" class="input__group--item" name="break_in{{ $count }}" value="{{    \Carbon\Carbon::parse($break_time->break_in)->translatedFormat('H:i') }}">
+                                <input type="time" class="input__group--item" name="break_in{{ $count }}" value="{{    \Carbon\Carbon::parse($break_time->break_in)->format('H:i') }}">
                                 <div class="wave">~</div>
-                                <input type="text" class="input__group--item" name="break_out{{ $count }}" value="{{ \Carbon\Carbon::parse($break_time->break_out)->translatedFormat('H:i') }}">
+                                <input type="time" class="input__group--item" name="break_out{{ $count }}" value="{{ \Carbon\Carbon::parse($break_time->break_out)->format('H:i') }}">
                             </div>
                             <div class="form__group--error">
                                 @error('break_in || break_out')
@@ -74,6 +74,11 @@
                     <td>
                         <div class="text__group">
                             <textarea class="text__group--item" name="remarks"></textarea>
+                        </div>
+                        <div class="form__group--error">
+                            @error('remarks')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </td>
                 </tr>

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Break_time;
 use App\Models\Situation;
 use App\Models\Work;
+use App\Models\Change_break;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Time;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 use App\Http\Requests\ChangeRequest;
+use App\Models\Change_request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Psy\CodeCleaner\FunctionContextPass;
@@ -79,6 +81,9 @@ class AuthController extends Controller
     public function request_list(){
         return view('admin.request_list');
     }
+
+
+
 
 //一般ユーザー
     // 勤怠登録
@@ -157,6 +162,37 @@ class AuthController extends Controller
         return view('admin.admindetail', compact('work'));
     }
     public function detail_store($work_id, ChangeRequest $request){
+        $work = Work::find($work_id)->first();
+        $changeStart = Carbon::parse($work->work_in)->setTimeFromTimeString($request->work_in);
+        $changeEnd = Carbon::parse($work->work_out)->setTimeFromTimeString($request->work_out);
+        Change_request::create(
+            [
+                'user_id' => Auth::id(),
+                'work_id' => $work_id,
+                'change_work_in' => $changeStart,
+                'change_work_out' => $changeEnd,
+                'change_break_in1' => $request->break_in1,
+                'change_break_out1' => $request->break_out1,
+                'change_break_in2' => $request->break_in2,
+                'change_break_out2'=> $request->break_out2,
+                'change_remarks' => $request->remarks,
+            ]
+        );
 
+        return redirect('/attendance/list');
+    }
+
+    // 申請一覧
+    public function request_index(){
+        $changes = Change_request::where([
+            ['user_id', Auth::id()],
+            ['approval_flg', 0],
+        ])->get();
+        // $changes = Change_request::where([
+        //     ['user_id', Auth::id()],
+        //     ['approval_flg', 1],
+        // ])->get();
+
+        return view('admin.request_list', compact('changes'));
     }
 }
