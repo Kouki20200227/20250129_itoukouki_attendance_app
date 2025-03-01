@@ -13,21 +13,13 @@
 
 /* 日付の指定処理 */
 .form__day{
+    display: flex;
+    justify-content: space-between;
     background-color: white;
-    padding: 1vh 0.5vw;
+    padding: 2vh 1vw;
     margin: 5vh 0;
     border-radius: 10px;
-}
-span{
-    font-weight: bold;
-    color: grey;
-}
-.form__day{
     position: relative;
-    padding: 2vh 1vw;
-}
-.form__day--day-before{
-    text-decoration: none;
 }
 .day__input{
     width: 20vw;
@@ -45,11 +37,15 @@ span{
 .day__input--item::-webkit-calendar-picker-indicator{
     background: url("../img/calendar.svg");
     position: absolute;
-    left: 5%;
+    left: 40%;
 }
 .day__input--item::-webkit-datetime-edit{
     position: relative;
-    left: 15%;
+    left: 10%;
+}
+.form__group--btn{
+    background-color: white;
+    border: none;
 }
 
 /* 勤怠一覧表示 */
@@ -63,6 +59,9 @@ span{
     border-radius: 10px;
     color: grey;
     text-align: center;
+}
+th{
+    font-weight: normal;
 }
 .list__table--name{
     width: 30%;
@@ -82,6 +81,12 @@ span{
 .list__table--detail{
     width: 20%;
 }
+.list__table--link{
+    text-decoration: none;
+    color: grey;
+    font-weight: bolder;
+}
 p{
     width: 75%;
+    margin: 1vh;
 }

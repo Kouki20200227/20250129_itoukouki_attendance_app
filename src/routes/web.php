@@ -40,14 +40,15 @@ Route::post('/logout', [LogoutController::class, 'destroy'])->name('logout');
 
 // 一般ユーザーのアクセス
 Route::middleware('auth')->group(function () {
-    // 勤怠登録画面(一般ユーザー)
+    // 勤怠登録画面
     Route::get('/attendance', [AuthController::class, 'index']);
     Route::post('/attendance', [AuthController::class, 'index_store']);
-    // 勤怠一覧画面(一般ユーザー)
+    // 勤怠一覧画面
     Route::get('/attendance/list', [AuthController::class, 'work_list']);
-    // 勤怠詳細画面(一般ユーザー)
+    // 勤怠詳細画面
     Route::get('/attendance/{work_id}', [AuthController::class, 'detail_index']);
     Route::post('/attendance/{work_id}', [AuthController::class, 'detail_store']);
+    // 申請一覧画面
     Route::get('/stamp_correction_request/list', [AuthController::class, 'request_index']);
 });
 
@@ -55,12 +56,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth:admin')->group(function () {
     // 勤怠一覧画面(管理者)
     Route::get('/admin/attendance/list', [AuthController::class, 'admin_index']);
-    // 申請一覧画面
-    // Route::get('/stamp_correction_request/list', [AuthController::class, 'request_list']);
     // 勤怠詳細画面
-    Route::get('/admin/attendance', [AuthController::class, 'admin_detail']);
+    Route::get('/attendance/{work_id}', [AuthController::class, 'admindetail_index']);
+    Route::post('/attendance/{work_id}', [AuthController::class, 'admindetail_store']);
     // スタッフ一覧画面
     Route::get('/admin/staff/list', [AuthController::class, 'staff_list']);
     // スタッフ別勤怠一覧画面
-    Route::get('/admin/attendance/staff/id', [AuthController::class, 'staff_detail']);
+    Route::get('/admin/attendance/staff/{user_id}', [AuthController::class, 'staff_detail']);
 });

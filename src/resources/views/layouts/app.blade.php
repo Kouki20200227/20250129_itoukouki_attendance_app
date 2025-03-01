@@ -23,9 +23,9 @@
                     <ul>
                         @if (Auth::check())
                             @if (Auth::guard('admin')->check())
-                                <li><a href="/">勤怠一覧</a></li>
-                                <li><a href="">スタッフ一覧</a></li>
-                                <li><a href="">申請一覧</a></li>
+                                <li><a href="/admin/attendance/list">勤怠一覧</a></li>
+                                <li><a href="/admin/staff/list">スタッフ一覧</a></li>
+                                <li><a href="/stamp_correction_request/list">申請一覧</a></li>
                                 <li>
                                     <form action="/logout" class="logout__form" method="post">
                                         @csrf

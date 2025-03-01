@@ -14,13 +14,13 @@
                 <th class="group__table--email">メールアドレス</th>
                 <th class="group__table--detail">月次勤怠</th>
             </tr>
-            <!-- 繰り返しスタート -->
+            @foreach ($users as $user)
                 <tr>
-                    <td class="group__table--name"><p>西 伶奈</p></td>
-                    <td class="group__table--email">reina.n@coachtech.com</td>
-                    <td class="group__table--detail"><a href="#" class="table__detail--link">詳細</a></td>
+                    <td class="group__table--name"><p>{{ $user->name }}</p></td>
+                    <td class="group__table--email">{{ $user->email }}</td>
+                    <td class="group__table--detail"><a href="/admin/attendance/staff/{{$user->id}}" class="table__detail--link">詳細</a></td>
                 </tr>
-            <!-- 繰り返しエンド -->
+            @endforeach
         </table>
     </div>
 </div>

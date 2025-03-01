@@ -31,8 +31,10 @@
 .form__group:last-of-type{
     text-align: right;
 }
-.form__group--link{
-    text-decoration: none;
+.form__group--btn{
+    background-color: white;
+    border: none;
+    font-size: 1em;
     color: grey;
 }
 .form__input{

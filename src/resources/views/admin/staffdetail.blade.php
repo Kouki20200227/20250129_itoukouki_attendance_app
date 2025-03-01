@@ -6,18 +6,28 @@
 
 @section('content')
 <div class="detail__content">
-    <h1 class="detail__content--ttl">{{ $user->name }}さんの勤怠</h1>
+    <h1 class="detail__content--ttl">
+        @if (Auth::guard('admin')->check())
+            {{ $user->name }}さんの勤怠
+        @elseif(Auth::guard('web')->check())
+            勤怠一覧
+        @endif
+    </h1>
     <div class="detail__group">
-        <form action="#" class="detail__form" method="get">
+        @if (Auth::guard('admin')->check())
+            <form action="/admin/attendance/staff/{{ $user->id }}" class="detail__form" method="get">
+        @elseif(Auth::guard('web')->check())
+            <form action="/attendance/list" class="detail__form" method="get">
+        @endif
             @csrf
                 <div class="form__group">
-                    <a href="#" class="form__group--link">←前月</a>
+                    <button class="form__group--btn" name="date" value="back">←前月</button>
                 </div>
                 <div class="form__input">
-                    <input type="month" class="form__input--item" value="{{ $dateYm }}">
+                    <input type="month" class="form__input--item" name="dateYm" value="{{ $dateYm->format('Y-m') }}">
                 </div>
                 <div class="form__group">
-                    <a href="#" class="form__group--link">翌月→</a>
+                    <button class="form__group--btn" name="date" value="next">翌月→</button>
                 </div>
         </form>
         <table class="detail__table">
@@ -29,30 +39,32 @@
                 <th class="detail__table--total">合計</th>
                 <th class="detail__table--detail">詳細</th>
             </tr>
-            @foreach ($worklist as $work)
-                @php
-                    $totalBreaks = \Carbon\Carbon::createFromFormat('H:i', '00:00');
-                    $workStart = \Carbon\Carbon::parse($work->work_in);
-                    $workEnd = \Carbon\Carbon::parse($work->work_out);
-                    $workdiff = $workStart->diff($workEnd);
-                    $worktime = \Carbon\Carbon::createFromTime($workdiff->h, $workdiff->i);
-                    foreach($work->break_times as $break_time){
-                        $breakStart = \Carbon\Carbon::parse($break_time->break_in);
-                        $breakEnd = \Carbon\Carbon::parse($break_time->break_out);
-                        $difftimes = $breakStart->diff($breakEnd);                        $addtime = \Carbon\Carbon::createFromTime($difftimes->h, $difftimes->i);
-                        $totalBreaks->addHours($addtime->hour)->addMinutes($addtime->minute);
-                    }
-                    $totalHours = $worktime->subHours($totalBreaks->hour)->subMinutes($totalBreaks->minute);
-                @endphp
-                <tr>
-                    <td class="detail__table--day">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('n/j (D)')}}</td>
-                    <td class="detail__table--clockin tag">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('H:i') }}</td>
-                    <td class="detail__table--clockout tag">{{ \Carbon\Carbon::parse($work->work_out)->translatedFormat('H:i') }}</td>
-                    <td class="detail__table--break tag">{{ \Carbon\Carbon::parse($totalBreaks)->translatedFormat('H:i') }}</td>
-                    <td class="detail__table--total tag">{{ \Carbon\Carbon::parse($totalHours)->translatedFormat('H:i') }}</td>
-                    <td class="detail__table--detail tag"><a href="/attendance/{{ $work->id }}" class="detail__table--link">詳細</a></td>
-                </tr>
-            @endforeach
+            @unless(is_null($worklist))
+                @foreach ($worklist as $work)
+                    @php
+                        $totalBreaks = \Carbon\Carbon::createFromFormat('H:i', '00:00');
+                        $workStart = \Carbon\Carbon::parse($work->work_in);
+                        $workEnd = \Carbon\Carbon::parse($work->work_out);
+                        $workdiff = $workStart->diff($workEnd);
+                        $worktime = \Carbon\Carbon::createFromTime($workdiff->h, $workdiff->i);
+                        foreach($work->break_times as $break_time){
+                            $breakStart = \Carbon\Carbon::parse($break_time->break_in);
+                            $breakEnd = \Carbon\Carbon::parse($break_time->break_out);
+                            $difftimes = $breakStart->diff ($breakEnd);                        $addtime = \Carbon\Carbon::createFromTime($difftimes->h, $difftimes->i);
+                            $totalBreaks->addHours($addtime->hour)->addMinutes ($addtime->minute);
+                        }
+                        $totalHours = $worktime->subHours($totalBreaks->hour)->subMinutes($totalBreaks->minute);
+                    @endphp
+                    <tr>
+                        <td class="detail__table--day">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('n/j (D)')}}</td>
+                        <td class="detail__table--clockin tag">{{ \Carbon\Carbon::parse($work->work_in)->translatedFormat('H:i') }}</td>
+                        <td class="detail__table--clockout tag">{{ \Carbon\Carbon::parse($work->work_out)->translatedFormat('H:i') }}</td>
+                        <td class="detail__table--break tag">{{ \Carbon\Carbon::parse($totalBreaks)->translatedFormat('H:i') }}</td>
+                        <td class="detail__table--total tag">{{ \Carbon\Carbon::parse($totalHours)->translatedFormat('H:i') }}</td>
+                        <td class="detail__table--detail tag"><a href="/attendance/{{ $work->id }}" class="detail__table--link">詳細</a></td>
+                    </tr>
+                @endforeach
+            @endunless
         </table>
     </div>
 </div>
