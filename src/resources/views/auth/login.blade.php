@@ -32,11 +32,6 @@
         </div>
         <div class="form__btn">
             <button class="form__btn--submit" type="submit">管理者ログインする</button>
-            <div class="form__group--error">
-                @error('login')
-                    {{$message}}
-                @enderror
-            </div>
         </div>
     </form>
     @elseif(Request::routeIs('login'))

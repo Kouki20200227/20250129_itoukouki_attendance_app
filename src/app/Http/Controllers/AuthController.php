@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Psy\CodeCleaner\FunctionContextPass;
 use Symfony\Component\Console\Input\Input;
+use App\Jobs\DailyTaskJob;
 
 use function PHPUnit\Framework\isNull;
 
@@ -64,6 +65,17 @@ class AuthController extends Controller
         $dateYm = $result->format('Y-m');
 
         return view('admin.staffdetail', compact('user', 'dateYm', 'worklist'));
+    }
+    // 申請一覧
+    public function adminrequest_index(Request $request){
+        if($request->tab === 'wait'){
+            $changes = Change_request::where('approval_flg', 0)->with('user')->get();
+        }
+        elseif($request->tab === 'approve'){
+            $changes = Change_request::where('approval_flg', 1)->with('user')->get();
+        }
+
+        return view('admin.request_list', compact('changes'));
     }
 
 
@@ -202,6 +214,47 @@ class AuthController extends Controller
         return view('admin.staffdetail', compact('user', 'dateYm', 'worklist'));
     }
 
+    // 申請一覧
+    public function request_index(Request $request){
+        if($request->tab === 'wait'){
+            $changes = Change_request::where([
+                ['user_id', Auth::id()],
+                ['approval_flg', 0],
+            ])->with('user')->get();
+        }
+        elseif($request->tab === 'approve'){
+            $changes = Change_request::where([
+                ['user_id', Auth::id()],
+                ['approval_flg', 1],
+            ])->get();
+        }
+        return view('admin.request_list', compact('changes'));
+    }
+    //修正申請承認
+    public function approve_index($attendance_correct_request){
+        $change = Change_request::find($attendance_correct_request)->first();
+        $work_in = Carbon::parse($change->change_work_in);
+
+        $list = [
+            'id' => $change->id,
+            'name' => $change->user->name,
+            'year' => $work_in->format('Y'),
+            'month' => $work_in->format('m'),
+            'day' => $work_in->format('d'),
+            'work_in' => $work_in->format('H:i'),
+            'work_out' => Carbon::parse($change->change_work_out)->format('H:i'),
+            'break_in1' => Carbon::parse($change->change_break_in1)->format('H:i'),
+            'break_out1' => Carbon::parse($change->change_break_out1)->format('H:i'),
+            'break_in2' => Carbon::parse($change->change_break_in2)->format('H:i'),
+            'break_out2' => Carbon::parse($change->change_break_out2)->format('H:i'),
+            'remarks' => $change->change_remarks,
+            'flg' => $change->approval_flg,
+        ];
+
+        return view('admin.approve', compact('list'));
+    }
+
+
 // 共通処理
     //勤怠詳細（修正申請）
     public function detail_index($work_id){
@@ -216,21 +269,6 @@ class AuthController extends Controller
     public function admindetail_store($work_id, ChangeRequest $request){
         $this->detailStore($work_id, $request);
     }
-
-    // 申請一覧
-    public function request_index(){
-        $changes = Change_request::where([
-            ['user_id', Auth::id()],
-            ['approval_flg', 0],
-        ])->get();
-        // $changes = Change_request::where([
-        //     ['user_id', Auth::id()],
-        //     ['approval_flg', 1],
-        // ])->get();
-
-        return view('admin.request_list', compact('changes'));
-    }
-
 
     private function setDetail($work_id){
         $change = Change_request::where([
@@ -262,9 +300,9 @@ class AuthController extends Controller
             $list = [
                 'work_id' => $work->id,
                 'name' => $work->user->name,
-                'year' => $work_in->year(),
-                'month' => $work_in->month(),
-                'day' => $work_in->day(),
+                'year' => $work_in->format('Y'),
+                'month' => $work_in->format('m'),
+                'day' => $work_in->format('d'),
                 'work_in' => $work_in->format('H:i'),
                 'work_out' => Carbon::parse($work->work_out)->format('H:i'),
                 'break_in1' => $break_in1,

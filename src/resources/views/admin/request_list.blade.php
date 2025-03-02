@@ -5,15 +5,16 @@
 @endsection
 
 @section('content')
+<script src="{{ asset('js/request.js') }}"></script>
 <div class="request__content">
     <h1 class="request__content--ttl">申請一覧</h1>
     <div class="request__select">
         <div class="select__group">
             <div class="select__tag">
-                <a href="#" class="select__tag--link">承認待ち</a>
+                <a href="/stamp_correction_request/list?tab=wait" class="select__tag--link" id="wait">承認待ち</a>
             </div>
             <div class="select__tag">
-                <a href="#" class="select__tag--link">承認済み</a>
+                <a href="/stamp_correction_request/list?tab=approve" class="select__tag--link" id="approve">承認済み</a>
             </div>
         </div>
     </div>
@@ -40,7 +41,13 @@
                 <td class="request__table--list">{{ \Carbon\Carbon::parse($change->change_work_in)->format('Y/m/d') }}</td>
                 <td class="request__table--list">{{ $change->change_remarks }}</td>
                 <td class="request__table--list">{{ \Carbon\Carbon::parse($change->created_at)->format('Y/m/d') }}</td>
-                <td class="request__table--detail"><a href="/attendance/{{ $change->work_id }}" class="table__detail--link">詳細</a></td>
+                <td class="request__table--detail">
+                    @if (Auth::guard('admin')->check())
+                        <a href="/stamp_correction_request/approve/{{ $change->id }}" class="table__detail--link">詳細</a>
+                    @elseif(Auth::guard('web')->check())
+                        <a href="/attendance/{{ $change->work_id }}" class="table__detail--link">詳細</a>
+                    @endif
+                </td>
             </tr>
         @endforeach
     </table>

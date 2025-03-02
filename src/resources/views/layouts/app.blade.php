@@ -25,11 +25,11 @@
                             @if (Auth::guard('admin')->check())
                                 <li><a href="/admin/attendance/list">勤怠一覧</a></li>
                                 <li><a href="/admin/staff/list">スタッフ一覧</a></li>
-                                <li><a href="/stamp_correction_request/list">申請一覧</a></li>
+                                <li><a href="/stamp_correction_request/list?tab=wait">申請一覧</a></li>
                                 <li>
                                     <form action="/logout" class="logout__form" method="post">
                                         @csrf
-                                        <button class="logout__btn--submit" type="submit">ログアウト</button>
+                                            <button class="logout__btn--submit" type="submit">ログアウト</button>
                                     </form>
                                 </li>
                             @elseif(Auth::guard('web')->check())

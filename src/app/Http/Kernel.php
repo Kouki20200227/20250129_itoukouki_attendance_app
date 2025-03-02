@@ -67,16 +67,4 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
-
-    protected function schedule(Schedule $schedule){
-        $schedule->call(function () {
-            // 状態をリセットする
-            // 日付を超えて勤務中の人の対応はまだ
-            Situation::all()->update(
-                [
-                    'situation' => 0
-                ]
-            );
-        })->dailyAt('00:00'); //毎日 0時に実行
-    }
 }

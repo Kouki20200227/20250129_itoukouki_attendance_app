@@ -29,13 +29,13 @@ Route::prefix('/')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
-
 // 管理者承認ルート
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('adminlogin');
     Route::post('/login', [AdminLoginController::class, 'admin_login']);
 });
 Route::post('/logout', [LogoutController::class, 'destroy'])->name('logout');
+
 
 
 // 一般ユーザーのアクセス
@@ -63,4 +63,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/staff/list', [AuthController::class, 'staff_list']);
     // スタッフ別勤怠一覧画面
     Route::get('/admin/attendance/staff/{user_id}', [AuthController::class, 'staff_detail']);
+    // 申請一覧画面
+    Route::get('/stamp_correction_request/list', [AuthController::class, 'adminrequest_index']);
+    //修正申請承認画面
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request}', [AuthController::class, 'approve_index']);
 });
